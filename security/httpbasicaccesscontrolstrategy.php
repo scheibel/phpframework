@@ -14,7 +14,13 @@ abstract class HttpBasicAccessControlStrategy extends AccessControlStrategy {
 			list ($user, $password) = $credentials;
 		}
 		
-		return isset($user) && isset($password) && $this->isValidUser($user, $password);
+		$valid = isset($user) && isset($password) && $this->isValidUser($user, $password);
+		
+		if ($valid) {
+			$this->authenticate($user, $command);
+		}
+		
+		return $valid;
 	}
 	
 	public function handleUnauthorizedAction($command) {
@@ -68,6 +74,10 @@ abstract class HttpBasicAccessControlStrategy extends AccessControlStrategy {
 	
 	abstract protected function getRealm();
 	abstract protected function isValidUser($username, $password);
+	
+	protected function authenticate($username, $command) {
+		
+	}
 }
 
 ?>

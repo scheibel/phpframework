@@ -274,7 +274,7 @@ abstract class TableMapper extends Mapper {
 		$fields = array();
 		
 		foreach ($array as $key=>$value) {
-			$fields[] = $key.' = \''.$value.'\'';
+			$fields[] = '`'.$key.'` = \''.$value.'\'';
 		}
 		
 		return implode(", ", $fields);

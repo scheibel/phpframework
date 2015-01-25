@@ -27,6 +27,10 @@ class IdentityMap extends \Framework\Core\Object {
 	}
 	
 	public function idOf($object) {
+		if (!is_object($object)) {
+			return false;
+		}
+		
 		if ($object->isWrapper() && $object->__isWrapped()) {
 			return $object->getId();
 		}
