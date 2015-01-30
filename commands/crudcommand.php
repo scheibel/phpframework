@@ -18,15 +18,20 @@ abstract class CrudCommand extends FrontControllerCommand {
 	}
 	
 	public function create() {
-		return $this->editViewOf($this->modelInstance(), 0);
+		$get = $this->request()->getGet();
+		
+		return $this->editViewOf($this->modelInstance(), 0, isset($get['targetUrl']) ? $get['targetUrl'] : $this->indexUrl());
 	}
 	
 	public function edit($id) {
-		return $this->editViewOf($this->mapperInstance()->get($id), $id);
+		$get = $this->request()->getGet();
+		
+		return $this->editViewOf($this->mapperInstance()->get($id), $id, isset($get['targetUrl']) ? $get['targetUrl'] : $this->indexUrl());
 	}
 	
 	public function save() {
 		$post = $this->preparsePost($this->request()->getPost());
+		$get = $this->request()->getGet();
 		
 		if ($post['id']>0) {
 			$model = $this->mapperInstance()->get($post['id']);
@@ -54,10 +59,19 @@ abstract class CrudCommand extends FrontControllerCommand {
 			}
 		}
 		
-		$this->redirectTo($this->indexUrl());
+		if (isset($post['targetUrl'])) {
+			$this->redirectTo($post['targetUrl']);
+		} else if (isset($get['targetUrl'])) {
+			$this->redirectTo($get['targetUrl']);
+		} else {
+			$this->redirectTo($this->indexUrl());
+		}
 	}
 	
 	public function delete($id) {
+		$post = $this->preparsePost($this->request()->getPost());
+		$get = $this->request()->getGet();
+		
 		$model = $this->mapperInstance()->get($id);
 		
 		if ($model->isNotNull()) {
@@ -68,7 +82,13 @@ abstract class CrudCommand extends FrontControllerCommand {
 			$this->deleted($model);
 		}
 		
-		$this->redirectTo($this->indexUrl());
+		if (isset($post['targetURL'])) {
+			$this->redirectTo($post['targetURL']);
+		} else if (isset($get['targetURL'])) {
+			$this->redirectTo($get['targetURL']);
+		} else {
+			$this->redirectTo($this->indexUrl());
+		}
 	}
 	
 	protected function findAll() {
@@ -106,7 +126,7 @@ abstract class CrudCommand extends FrontControllerCommand {
 	abstract protected function modelInstance();
 	abstract protected function mapperInstance();
 	abstract protected function listViewOf($models);
-	abstract protected function editViewOf($model, $id);
+	abstract protected function editViewOf($model, $id, $targetUrl);
 	abstract protected function indexUrl();
 }
 
