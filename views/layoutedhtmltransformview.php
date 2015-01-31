@@ -14,7 +14,7 @@ abstract class LayoutedHTMLTransformView extends TransformView {
 	public function content() {
 		$layout = $this->layoutClass();
 		
-		return $layout::instance()->content();
+		return $layout::instance($this)->content();
 	}
 	
 	abstract protected function layoutClass();

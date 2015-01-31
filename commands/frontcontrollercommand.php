@@ -32,6 +32,9 @@ abstract class FrontControllerCommand extends \Framework\Core\Object {
 	public function execute() {
 		$transformView = $this->executeAction();
 		
+		$transformView->setRequest($this->request);
+		$transformView->setSession($this->session);
+		
 		$this->response->setHeader($transformView->header());
 		$this->response->setContent($transformView->content());
 	}

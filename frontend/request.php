@@ -12,6 +12,10 @@ abstract class Request extends \Framework\Core\Object {
 	protected $files;
 	protected $environment;
 	
+	public function route() {
+		return '';
+	}
+	
 	public function getGet() {
 		return $this->get;
 	}

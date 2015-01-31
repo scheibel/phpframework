@@ -8,6 +8,8 @@ namespace Framework\Views;
  */
 abstract class TransformView extends \Framework\Core\Object {
 	private $helpers;
+	private $request;
+	private $session;
 	
 	public function construct() {
 		parent::construct();
@@ -31,6 +33,22 @@ abstract class TransformView extends \Framework\Core\Object {
 		}
 		
 		throw new \Exception($method." not understood.");
+	}
+	
+	public function setRequest($request) {
+		$this->request = $request;
+	}
+	
+	public function getRequest() {
+		return $this->request;
+	}
+	
+	public function setSession($session) {
+		$this->session = $session;
+	}
+	
+	public function getSession() {
+		return $this->session;
 	}
 }
 
