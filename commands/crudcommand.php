@@ -82,10 +82,10 @@ abstract class CrudCommand extends FrontControllerCommand {
 			$this->deleted($model);
 		}
 		
-		if (isset($post['targetURL'])) {
-			$this->redirectTo($post['targetURL']);
-		} else if (isset($get['targetURL'])) {
-			$this->redirectTo($get['targetURL']);
+		if (isset($post['targetUrl'])) {
+			$this->redirectTo($post['targetUrl']);
+		} else if (isset($get['targetUrl'])) {
+			$this->redirectTo($get['targetUrl']);
 		} else {
 			$this->redirectTo($this->indexUrl());
 		}
